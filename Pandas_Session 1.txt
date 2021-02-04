@@ -1,0 +1,297 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import numpy as np
+import pandas as pd
+
+
+# In[3]:
+
+
+print(pd.__version__)
+get_ipython().run_line_magic('pinfo', 'pd')
+
+
+# Type:        module
+# String form: <module 'pandas' from 'C:\\Users\\HP\\anaconda4\\lib\\site-packages\\pandas\\__init__.py'>
+# File:        c:\users\hp\anaconda4\lib\site-packages\pandas\__init__.py
+# Docstring:  
+# pandas - a powerful data analysis and manipulation library for Python
+# =====================================================================
+# 
+# **pandas** is a Python package providing fast, flexible, and expressive data
+# structures designed to make working with "relational" or "labeled" data both
+# easy and intuitive. It aims to be the fundamental high-level building block for
+# doing practical, **real world** data analysis in Python. Additionally, it has
+# the broader goal of becoming **the most powerful and flexible open source data
+# analysis / manipulation tool available in any language**. It is already well on
+# its way toward this goal.
+# 
+# Main Features
+# -------------
+# Here are just a few of the things that pandas does well:
+# 
+#   - Easy handling of missing data in floating point as well as non-floating
+#     point data.
+#   - Size mutability: columns can be inserted and deleted from DataFrame and
+#     higher dimensional objects
+#   - Automatic and explicit data alignment: objects can be explicitly aligned
+#     to a set of labels, or the user can simply ignore the labels and let
+#     `Series`, `DataFrame`, etc. automatically align the data for you in
+#     computations.
+#   - Powerful, flexible group by functionality to perform split-apply-combine
+#     operations on data sets, for both aggregating and transforming data.
+#   - Make it easy to convert ragged, differently-indexed data in other Python
+#     and NumPy data structures into DataFrame objects.
+#   - Intelligent label-based slicing, fancy indexing, and subsetting of large
+#     data sets.
+#   - Intuitive merging and joining data sets.
+#   - Flexible reshaping and pivoting of data sets.
+#   - Hierarchical labeling of axes (possible to have multiple labels per tick).
+#   - Robust IO tools for loading data from flat files (CSV and delimited),
+#     Excel files, databases, and saving/loading data from the ultrafast HDF5
+#     format.
+#   - Time series-specific functionality: date range generation and frequency
+#     conversion, moving window statistics, date shifting and lagging.
+
+# In[9]:
+
+
+series = pd.Series([10,20,30,40,50]) # default indexing
+print(series)
+print(series.index)
+print(series.values)
+print("Type of the series\n", type(series))
+print("Type of elements\n", (series.values.dtype))
+
+
+# In[10]:
+
+
+index = [13,14,15,16,17]
+series = pd.Series([10,20,30,40,50], index = index)
+print(series)
+
+
+# In[14]:
+
+
+index = ['A','B','C','D','E']
+series = pd.Series([10,20,30,40,50], index = index)
+print(series)
+
+
+# In[16]:
+
+
+# Create using numpy array
+arr = np.array([10, 20, 30, 40, 50])
+series = pd.Series(arr) # default indexing
+print(series)
+
+
+# In[17]:
+
+
+dict = {'a':10, 'b':20, 'c':30, 'd':40, 'e':50}
+print(dict)
+
+
+# In[20]:
+
+
+ser_dict = pd.Series(dict)
+print(ser_dict)
+print("Series is \n", ser_dict)
+print("b" in ser_dict)
+print('Indices are: ', ser_dict.index, '\n Elements of the series are : ' , ser_dict.values)
+
+
+# In[21]:
+
+
+# indexing and slicing
+ser_list = pd.Series([10,20,30,40,50,60])
+print(ser_list)
+print(ser_list[3])
+print(ser_list[1:4])
+print(ser_list[:4])
+
+
+# In[22]:
+
+
+# indexing and slicing
+ser_list = pd.Series([10.5,20.5,30.5,40.5,50.5,60.5])
+print(ser_list)
+print(ser_list[3])
+print(ser_list[1:4])
+print(ser_list[:4])
+print(ser_dict[3:])
+print(ser_dict[1:4:2])
+
+
+# In[26]:
+
+
+# indexing and slicing
+ser_list = pd.Series([10.5,20.5,30.5,40.5,50.5,60.5])
+#print(ser_list)
+#print(ser_list[3])
+#print(ser_list[1:4])
+#print(ser_list[:4])
+#print(ser_dict[3:])
+print(ser_dict[1:4:2])
+
+
+# In[23]:
+
+
+# Fancy Indexing
+ser_list = pd.Series([10.5,20.5,30.5,40.5,50.5,60.5])
+ser_slice = pd.Series(ser_list,index=[3,2])  # select rows with index
+print(ser_slice)
+
+
+# ## Slicing and Accesssing with the explicit index
+
+# In[31]:
+
+
+# Accessing series elements in a dictionary way.This is with explicit index or key.
+dict = {'a':10, 'b':20, 'c':30, 'd':40, 'e':50} # creating a Dictionary
+print("dictionary is", dict)
+ser_dict = pd.Series(dict)
+# print(ser_dict.index)
+print(ser_dict['a'])
+print(ser_dict['a':'c'])  #1:4
+print("ser_dict[:'d']:\n", ser_dict[:'d'])
+print("ser_dict[['b', 'e']] :\n", ser_dict[['b', 'e']])  # Fancy Indexing
+print(ser_dict[1:3]) # with explicit indexdefault index also exists
+
+
+# In[33]:
+
+
+#Problem that may arise with implicit and explicit indexing
+#Consider an Example where the explicit index is also a number
+s = pd.Series([5,4,3,2],  index=[100, 200, 300,400])  # index has to be given as 2nd parameter
+#print("Series is : \n", s, '\n Indices are : ', s.index) 
+print(s[100:300])     #100 and 300 not the default index
+#print(s[1:3])
+
+
+# In[34]:
+
+
+#Problem that may arise with implicit and explicit indexing
+#Consider an Example where the explicit index is also a number
+s = pd.Series([5,4,3,2],  index=[100, 200, 300,400])  # index has to be given as 2nd parameter
+print("Series is : \n", s, '\n Indices are : ', s.index) 
+print(s[100:300])     #100 and 300 not the default index
+print(s[1:3])
+
+
+# In[35]:
+
+
+#the loc() - indexing and slicing with explicit index
+#the iloc() - indexing and slicing with implicit index
+s = pd.Series([5,4,3,2],  index=[100, 200, 300,400])  # index has to be given as 2nd parameter
+print("Series is : \n", s, '\n Indices are : ', s.index)
+print("Series with explicit index :s.loc[100:300]\n", s.loc[100:300])  #it will take the end value too
+#print("Series with implicit index:  s.iloc[1:3] \n" , s.iloc[1:3])
+print('Implicit access  : s.iloc[2] \n' , s.iloc[2])
+print('Explicit access  : s.loc[200] \n' , s.loc[200])
+
+
+# ## Difference between Implicit and Explicit Indexing
+# ## Explicit index use loc() series.loc[slice]. Slice will take start to stop
+# ## Implicit index use iloc() series.iloc[slice]. Slice will takestart to stop-1
+
+# In[36]:
+
+
+#the loc() - indexing and slicing with explicit index
+#the iloc() - indexing and slicing with implicit index
+s = pd.Series([5,4,3,2],  index=[100, 100, 300,400])  # index has to be given as 2nd parameter
+print("Series is : \n", s, '\n Indices are : ', s.index)
+print(s.loc[100:300]) # it will take the end of value too
+#print("Series with explicit index :s.loc[100:300]\n", s.loc[100:300])  #it will take the end value too
+#print("Series with implicit index:  s.iloc[1:3] \n" , s.iloc[1:3])
+#print('Implicit access  : s.iloc[2] \n' , s.iloc[2])
+#print('Explicit access  : s.loc[200] \n' , s.loc[200])
+
+
+# In[39]:
+
+
+#the loc() - indexing and slicing with explicit index
+#the iloc() - indexing and slicing with implicit index
+s = pd.Series([5,4,3,2],  index=[100, 100, 300,400])  # index has to be given as 2nd parameter
+print("Series is : \n", s, '\n Indices are : ', s.index)
+print(s.loc[100:300]) # it will take the end of value too
+print("Series with explicit index :s.loc[100:300]\n", s.loc[100:300])  #it will take the end value too
+print("Series with implicit index:  s.iloc[1:3] \n" , s.iloc[1:3])
+print('Implicit access  : s.iloc[2] \n' , s.iloc[2])
+#print('Explicit access  : s.loc[200] \n' , s.loc[200])
+print(s[100])
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
